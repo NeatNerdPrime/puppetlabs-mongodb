@@ -17,24 +17,24 @@ describe Puppet::Type.type(:mongodb_user).provider(:mongodb) do
             'iterationCount' => 10_000,
             'salt' => 'salt',
             'storedKey' => 'storedKey',
-            'serverKey' => 'serverKey'
-          }
+            'serverKey' => 'serverKey',
+          },
         },
         'roles' => [
           {
             'role' => 'role2',
-            'db' => 'admin'
+            'db' => 'admin',
           },
           {
             'role' => 'role3',
-            'db' => 'user_database'
+            'db' => 'user_database',
           },
           {
             'role' => 'role1',
-            'db' => 'admin'
-          }
-        ]
-      }
+            'db' => 'admin',
+          },
+        ],
+      },
     ].to_json
   end
 
@@ -47,7 +47,7 @@ describe Puppet::Type.type(:mongodb_user).provider(:mongodb) do
       database: 'new_database',
       password_hash: 'pass',
       roles: %w[role1 role2@other_database],
-      provider: described_class.name
+      provider: described_class.name,
     )
   end
 
@@ -119,8 +119,8 @@ describe Puppet::Type.type(:mongodb_user).provider(:mongodb) do
           "digestPassword":false
       }
       EOS
-      allow(provider).to receive(:mongo_eval).
-        with("db.runCommand(#{cmd_json})", 'new_database')
+      allow(provider).to receive(:mongo_eval)
+        .with("db.runCommand(#{cmd_json})", 'new_database')
       provider.password_hash = 'newpass'
       expect(provider).to have_received(:mongo_eval)
     end
@@ -132,7 +132,7 @@ describe Puppet::Type.type(:mongodb_user).provider(:mongodb) do
         'iterationCount' => 10_000,
         'salt' => 'salt',
         'storedKey' => 'storedKey',
-        'serverKey' => 'serverKey'
+        'serverKey' => 'serverKey',
       }
       expect(instance.scram_credentials).to match(credentials)
     end
@@ -154,26 +154,26 @@ describe Puppet::Type.type(:mongodb_user).provider(:mongodb) do
 
     it 'grant a role' do
       resource.provider.set(name: 'new_user', ensure: :present, roles: %w[role1 role2@other_database])
-      allow(provider).to receive(:mongo_eval).
-        with('db.getSiblingDB("new_database").grantRolesToUser("new_user", [{"role":"role3","db":"new_database"}])')
+      allow(provider).to receive(:mongo_eval)
+        .with('db.getSiblingDB("new_database").grantRolesToUser("new_user", [{"role":"role3","db":"new_database"}])')
       provider.roles = %w[role1 role2@other_database role3]
       expect(provider).to have_received(:mongo_eval)
     end
 
     it 'revokes a role' do
       resource.provider.set(name: 'new_user', ensure: :present, roles: %w[role1 role2@other_database])
-      allow(provider).to receive(:mongo_eval).
-        with('db.getSiblingDB("new_database").revokeRolesFromUser("new_user", [{"role":"role1","db":"new_database"}])')
+      allow(provider).to receive(:mongo_eval)
+        .with('db.getSiblingDB("new_database").revokeRolesFromUser("new_user", [{"role":"role1","db":"new_database"}])')
       provider.roles = ['role2@other_database']
       expect(provider).to have_received(:mongo_eval)
     end
 
     it 'exchanges a role' do
       resource.provider.set(name: 'new_user', ensure: :present, roles: %w[role1 role2@other_database])
-      allow(provider).to receive(:mongo_eval).
-        with('db.getSiblingDB("new_database").revokeRolesFromUser("new_user", [{"role":"role1","db":"new_database"}])')
-      allow(provider).to receive(:mongo_eval).
-        with('db.getSiblingDB("new_database").grantRolesToUser("new_user", [{"role":"role3","db":"new_database"}])')
+      allow(provider).to receive(:mongo_eval)
+        .with('db.getSiblingDB("new_database").revokeRolesFromUser("new_user", [{"role":"role1","db":"new_database"}])')
+      allow(provider).to receive(:mongo_eval)
+        .with('db.getSiblingDB("new_database").grantRolesToUser("new_user", [{"role":"role3","db":"new_database"}])')
 
       provider.roles = %w[role2@other_database role3]
 

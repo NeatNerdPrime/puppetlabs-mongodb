@@ -16,7 +16,7 @@ describe provider_class do
     v = [
       '4.x.x',
       '5.x.x',
-      'x.x.x'
+      'x.x.x',
     ]
 
     v.each do |key|

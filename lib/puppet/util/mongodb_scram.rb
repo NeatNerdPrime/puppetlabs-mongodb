@@ -34,7 +34,7 @@ module Puppet
           @password_hash,
           Base64.strict_decode64(@salt),
           @iterations,
-          digest.size
+          digest.size,
         )
       end
 

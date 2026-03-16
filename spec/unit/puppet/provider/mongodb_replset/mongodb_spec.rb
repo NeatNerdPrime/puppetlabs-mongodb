@@ -17,7 +17,7 @@ describe Puppet::Type.type(:mongodb_replset).provider(:mongo) do
       name: 'rs_test',
       members: valid_members,
       settings: {},
-      provider: :mongo
+      provider: :mongo,
     )
   end
 

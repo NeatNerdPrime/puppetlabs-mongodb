@@ -8,7 +8,7 @@ describe Puppet::Type.type(:mongodb_user) do
     Puppet::Type.type(:mongodb_user).new(
       name: 'test',
       database: 'testdb',
-      password_hash: 'pass'
+      password_hash: 'pass',
     )
   end
 
@@ -68,7 +68,7 @@ describe Puppet::Type.type(:mongodb_user) do
       name: 'test',
       database: 'testdb',
       password_hash: 'pass',
-      roles: %w[b a]
+      roles: %w[b a],
     )
 
     expect(user[:roles]).to eq(%w[a b])

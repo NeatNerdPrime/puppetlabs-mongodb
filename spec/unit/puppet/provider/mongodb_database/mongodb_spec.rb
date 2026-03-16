@@ -10,15 +10,15 @@ describe Puppet::Type.type(:mongodb_database).provider(:mongodb) do
         {
           'name'       => 'admin',
           'sizeOnDisk' => 83_886_080,
-          'empty'      => false
+          'empty'      => false,
         }, {
           'name'       => 'local',
           'sizeOnDisk' => 83_886_080,
-          'empty'      => false
-        }
+          'empty'      => false,
+        },
       ],
       'totalSize' => 251_658_240,
-      'ok' => 1
+      'ok' => 1,
     }.to_json
   end
 
@@ -26,7 +26,7 @@ describe Puppet::Type.type(:mongodb_database).provider(:mongodb) do
     Puppet::Type.type(:mongodb_database).new(
       ensure: :present,
       name: 'new_database',
-      provider: described_class.name
+      provider: described_class.name,
     )
   end
 

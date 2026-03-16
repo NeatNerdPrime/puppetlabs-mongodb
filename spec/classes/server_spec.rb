@@ -7,13 +7,13 @@ describe 'mongodb::server' do
     it { is_expected.to compile.with_all_deps }
 
     it {
-      is_expected.to contain_class('mongodb::server::install').
-        that_comes_before('Class[mongodb::server::config]')
+      is_expected.to contain_class('mongodb::server::install')
+        .that_comes_before('Class[mongodb::server::config]')
     }
 
     it {
-      is_expected.to contain_class('mongodb::server::config').
-        that_notifies('Class[mongodb::server::service]')
+      is_expected.to contain_class('mongodb::server::config')
+        .that_notifies('Class[mongodb::server::service]')
     }
 
     it { is_expected.to contain_class('mongodb::server::service') }
@@ -81,19 +81,19 @@ describe 'mongodb::server' do
           {
             create_admin: true,
             admin_username: 'admin',
-            admin_password: 'password'
+            admin_password: 'password',
           }
         end
 
         it_behaves_like 'server classes'
 
         it do
-          is_expected.to contain_mongodb__db('admin').
-            with_user('admin').
-            with_password('password').
-            with_roles(%w[userAdmin readWrite dbAdmin dbAdminAnyDatabase readAnyDatabase
-                          readWriteAnyDatabase userAdminAnyDatabase clusterAdmin clusterManager
-                          clusterMonitor hostManager root restore])
+          is_expected.to contain_mongodb__db('admin')
+            .with_user('admin')
+            .with_password('password')
+            .with_roles(%w[userAdmin readWrite dbAdmin dbAdminAnyDatabase readAnyDatabase
+                           readWriteAnyDatabase userAdminAnyDatabase clusterAdmin clusterManager
+                           clusterMonitor hostManager root restore])
         end
 
         it { is_expected.to contain_mongodb_database('admin').that_requires('Service[mongodb]') }
@@ -104,19 +104,19 @@ describe 'mongodb::server' do
           {
             create_admin: true,
             admin_username: 'admin',
-            admin_password_hash: 'xxx89adfaxd'
+            admin_password_hash: 'xxx89adfaxd',
           }
         end
 
         it_behaves_like 'server classes'
 
         it do
-          is_expected.to contain_mongodb__db('admin').
-            with_user('admin').
-            with_password_hash('xxx89adfaxd').
-            with_roles(%w[userAdmin readWrite dbAdmin dbAdminAnyDatabase readAnyDatabase
-                          readWriteAnyDatabase userAdminAnyDatabase clusterAdmin clusterManager
-                          clusterMonitor hostManager root restore])
+          is_expected.to contain_mongodb__db('admin')
+            .with_user('admin')
+            .with_password_hash('xxx89adfaxd')
+            .with_roles(%w[userAdmin readWrite dbAdmin dbAdminAnyDatabase readAnyDatabase
+                           readWriteAnyDatabase userAdminAnyDatabase clusterAdmin clusterManager
+                           clusterMonitor hostManager root restore])
         end
 
         it { is_expected.to contain_mongodb_database('admin').that_requires('Service[mongodb]') }
@@ -125,7 +125,7 @@ describe 'mongodb::server' do
       describe 'with preset variables' do
         let :params do
           {
-            config: '/etc/custom-mongod.conf'
+            config: '/etc/custom-mongod.conf',
           }
         end
 
@@ -135,7 +135,7 @@ describe 'mongodb::server' do
       describe 'with absent ensure' do
         let :params do
           {
-            ensure: 'absent'
+            ensure: 'absent',
           }
         end
 
@@ -150,7 +150,7 @@ describe 'mongodb::server' do
         let :params do
           {
             bind_ip: ['127.0.0.1', 'fd00:beef:dead:55::143'],
-            ipv6: true
+            ipv6: true,
           }
         end
 
@@ -164,7 +164,7 @@ describe 'mongodb::server' do
       describe 'with specific bind_ip values' do
         let :params do
           {
-            bind_ip: ['127.0.0.1', '10.1.1.13']
+            bind_ip: ['127.0.0.1', '10.1.1.13'],
           }
         end
 
@@ -177,7 +177,7 @@ describe 'mongodb::server' do
       describe 'when specifying auth to true' do
         let :params do
           {
-            auth: true
+            auth: true,
           }
         end
 
@@ -194,8 +194,8 @@ describe 'mongodb::server' do
           {
             set_parameter: [
               'textSearchEnable: true',
-              'authenticationMechanisms: PLAIN'
-            ]
+              'authenticationMechanisms: PLAIN',
+            ],
           }
         end
 
@@ -209,7 +209,7 @@ describe 'mongodb::server' do
       describe 'when specifying set_parameter string value with : separator' do
         let :params do
           {
-            set_parameter: 'textSearchEnable: true'
+            set_parameter: 'textSearchEnable: true',
           }
         end
 
@@ -224,8 +224,8 @@ describe 'mongodb::server' do
           {
             set_parameter: [
               'textSearchEnable = true',
-              'authenticationMechanisms = PLAIN'
-            ]
+              'authenticationMechanisms = PLAIN',
+            ],
           }
         end
 
@@ -239,7 +239,7 @@ describe 'mongodb::server' do
       describe 'when specifying set_parameter string value with = separator' do
         let :params do
           {
-            set_parameter: 'textSearchEnable = true'
+            set_parameter: 'textSearchEnable = true',
           }
         end
 
@@ -255,7 +255,7 @@ describe 'mongodb::server' do
             set_parameter: {
               'textSearchEnable' => true,
               'authenticationMechanisms' => 'PLAIN',
-            }
+            },
           }
         end
 
@@ -269,7 +269,7 @@ describe 'mongodb::server' do
       describe 'with journal: true' do
         let :params do
           {
-            journal: true
+            journal: true,
           }
         end
 
@@ -279,7 +279,7 @@ describe 'mongodb::server' do
       describe 'with journal: false' do
         let :params do
           {
-            journal: false
+            journal: false,
           }
         end
 
@@ -290,7 +290,7 @@ describe 'mongodb::server' do
         let :params do
           {
             package_ensure: '6.0.0',
-            journal: true
+            journal: true,
           }
         end
 
@@ -301,7 +301,7 @@ describe 'mongodb::server' do
         let :params do
           {
             package_ensure: '7.0.0',
-            journal: true
+            journal: true,
           }
         end
 
@@ -311,7 +311,7 @@ describe 'mongodb::server' do
       describe 'with journal and user defined repo_version < 7.0' do
         let :params do
           {
-            journal: true
+            journal: true,
           }
         end
         let(:pre_condition) do
@@ -323,7 +323,7 @@ describe 'mongodb::server' do
               $repo_version = "6.0"
               $repo_location = undef
             }',
-            'class{"mongodb::globals": }'
+            'class{"mongodb::globals": }',
           ]
         end
 
@@ -336,7 +336,7 @@ describe 'mongodb::server' do
       describe 'with journal and user defined repo_location without version' do
         let :params do
           {
-            journal: true
+            journal: true,
           }
         end
         let(:pre_condition) do
@@ -347,7 +347,7 @@ describe 'mongodb::server' do
               $edition = "org"
               $repo_location = "https://repo.myorg.com/"
             }',
-            'class{"mongodb::globals": }'
+            'class{"mongodb::globals": }',
           ]
         end
 
@@ -361,7 +361,7 @@ describe 'mongodb::server' do
         let :params do
           {
             package_ensure: '6.0.0',
-            journal: true
+            journal: true,
           }
         end
         let(:pre_condition) do
@@ -372,7 +372,7 @@ describe 'mongodb::server' do
               $edition = "org"
               $repo_location = "https://repo.myorg.com/"
             }',
-            'class{"mongodb::globals": }'
+            'class{"mongodb::globals": }',
           ]
         end
 
@@ -386,7 +386,7 @@ describe 'mongodb::server' do
         let :params do
           {
             package_ensure: '7.0.0',
-            journal: true
+            journal: true,
           }
         end
         let(:pre_condition) do
@@ -397,7 +397,7 @@ describe 'mongodb::server' do
               $edition = "org"
               $repo_location = "https://repo.myorg.com/"
             }',
-            'class{"mongodb::globals": }'
+            'class{"mongodb::globals": }',
           ]
         end
 
@@ -407,7 +407,7 @@ describe 'mongodb::server' do
       describe 'with journal and user defined repo_location with version < 7.0' do
         let :params do
           {
-            journal: true
+            journal: true,
           }
         end
         let(:pre_condition) do
@@ -418,7 +418,7 @@ describe 'mongodb::server' do
               $edition = "org"
               $repo_location = "https://repo.myorg.com/6.0/"
             }',
-            'class{"mongodb::globals": }'
+            'class{"mongodb::globals": }',
           ]
         end
 
@@ -431,7 +431,7 @@ describe 'mongodb::server' do
       describe 'with journal and user defined repo_location with version >= 7.0' do
         let :params do
           {
-            journal: true
+            journal: true,
           }
         end
         let(:pre_condition) do
@@ -442,7 +442,7 @@ describe 'mongodb::server' do
               $edition = "org"
               $repo_location = "https://repo.myorg.com/7.0/"
             }',
-            'class{"mongodb::globals": }'
+            'class{"mongodb::globals": }',
           ]
         end
 
@@ -454,7 +454,7 @@ describe 'mongodb::server' do
         context 'true and without quotafiles' do
           let :params do
             {
-              quota: true
+              quota: true,
             }
           end
 
@@ -469,7 +469,7 @@ describe 'mongodb::server' do
           let :params do
             {
               quota: true,
-              quotafiles: 1
+              quotafiles: 1,
             }
           end
 
@@ -503,17 +503,17 @@ describe 'mongodb::server' do
               admin_username: 'admin',
               admin_password: 'password',
               auth: true,
-              store_creds: true
+              store_creds: true,
             }
           end
 
           it {
-            is_expected.to contain_file('/root/.mongoshrc.js').
-              with_ensure('file').
-              with_owner('root').
-              with_group('root').
-              with_mode('0600').
-              with_content(%r{admin\.auth\('admin', 'password'\)})
+            is_expected.to contain_file('/root/.mongoshrc.js')
+              .with_ensure('file')
+              .with_owner('root')
+              .with_group('root')
+              .with_mode('0600')
+              .with_content(%r{admin\.auth\('admin', 'password'\)})
           }
 
           context 'with complex password' do
@@ -522,13 +522,13 @@ describe 'mongodb::server' do
                 admin_username: 'admin',
                 admin_password: 'complex_\\_\'_"_&_password',
                 auth: true,
-                store_creds: true
+                store_creds: true,
               }
             end
 
             it {
-              is_expected.to contain_file('/root/.mongoshrc.js').
-                with_content(%r{admin\.auth\('admin', 'complex_\\\\_\\'_"_&_password'\)})
+              is_expected.to contain_file('/root/.mongoshrc.js')
+                .with_content(%r{admin\.auth\('admin', 'complex_\\\\_\\'_"_&_password'\)})
             }
           end
         end
@@ -536,7 +536,7 @@ describe 'mongodb::server' do
         context 'false' do
           let :params do
             {
-              store_creds: false
+              store_creds: false,
             }
           end
 
@@ -549,7 +549,7 @@ describe 'mongodb::server' do
           {
             manage_pidfile: true,
             pidfilepath: '/var/run/mongodb/mongod.pid',
-            pidfilemode: '0640'
+            pidfilemode: '0640',
           }
         end
 
@@ -561,16 +561,16 @@ describe 'mongodb::server' do
           {
             dbpath_fix: true,
             user: 'foo',
-            group: 'bar'
+            group: 'bar',
           }
         end
 
         it do
-          is_expected.to contain_exec('fix dbpath permissions').
-            with_command("chown -R foo:bar #{db_path}").
-            with_path(['/usr/bin', '/bin']).
-            with_onlyif("find #{db_path} -not -user foo -o -not -group bar -print -quit | grep -q '.*'").
-            that_subscribes_to("File[#{db_path}]")
+          is_expected.to contain_exec('fix dbpath permissions')
+            .with_command("chown -R foo:bar #{db_path}")
+            .with_path(['/usr/bin', '/bin'])
+            .with_onlyif("find #{db_path} -not -user foo -o -not -group bar -print -quit | grep -q '.*'")
+            .that_subscribes_to("File[#{db_path}]")
         end
       end
 
@@ -580,7 +580,7 @@ describe 'mongodb::server' do
             {
               tls: true,
               tls_mode: 'requireTLS',
-              tls_key: '/etc/ssl/mongodb.pem'
+              tls_key: '/etc/ssl/mongodb.pem',
             }
           end
 
@@ -594,7 +594,7 @@ describe 'mongodb::server' do
         context 'disabled' do
           let :params do
             {
-              tls: false
+              tls: false,
             }
           end
 
@@ -612,7 +612,7 @@ describe 'mongodb::server' do
               tls: true,
               tls_mode: 'requireTLS',
               tls_key: '/etc/ssl/mongodb.pem',
-              tls_ca: '/etc/ssl/caToValidateClientCertificates.pem'
+              tls_ca: '/etc/ssl/caToValidateClientCertificates.pem',
             }
           end
 
@@ -629,7 +629,7 @@ describe 'mongodb::server' do
             {
               tls: true,
               tls_mode: 'requireTLS',
-              tls_key: '/etc/ssl/mongodb.pem'
+              tls_key: '/etc/ssl/mongodb.pem',
             }
           end
 
@@ -650,7 +650,7 @@ describe 'mongodb::server' do
               tls_mode: 'requireTLS',
               tls_key: '/etc/ssl/mongodb.pem',
               tls_ca: '/etc/ssl/caToValidateClientCertificates.pem',
-              tls_conn_without_cert: true
+              tls_conn_without_cert: true,
             }
           end
 
@@ -670,7 +670,7 @@ describe 'mongodb::server' do
               tls_mode: 'requireTLS',
               tls_key: '/etc/ssl/mongodb.pem',
               tls_ca: '/etc/ssl/caToValidateClientCertificates.pem',
-              tls_conn_without_cert: false
+              tls_conn_without_cert: false,
             }
           end
 
@@ -691,7 +691,7 @@ describe 'mongodb::server' do
               tls: true,
               tls_mode: 'requireTLS',
               tls_key: '/etc/ssl/mongodb.pem',
-              tls_invalid_hostnames: true
+              tls_invalid_hostnames: true,
             }
           end
 
@@ -709,7 +709,7 @@ describe 'mongodb::server' do
               tls: true,
               tls_mode: 'requireTLS',
               tls_key: '/etc/ssl/mongodb.pem',
-              tls_invalid_hostnames: false
+              tls_invalid_hostnames: false,
             }
           end
 
@@ -729,7 +729,7 @@ describe 'mongodb::server' do
               tls: true,
               tls_mode: 'requireTLS',
               tls_key: '/etc/ssl/mongodb.pem',
-              tls_invalid_certificates: true
+              tls_invalid_certificates: true,
             }
           end
 
@@ -747,7 +747,7 @@ describe 'mongodb::server' do
               tls: true,
               tls_mode: 'requireTLS',
               tls_key: '/etc/ssl/mongodb.pem',
-              tls_invalid_certificates: false
+              tls_invalid_certificates: false,
             }
           end
 
@@ -762,7 +762,7 @@ describe 'mongodb::server' do
         context 'disabled' do
           let :params do
             {
-              tls: false
+              tls: false,
             }
           end
 
@@ -807,17 +807,17 @@ describe 'mongodb::server' do
                 'members' => [
                   'mongo1:27017',
                   'mongo2:27017',
-                  'mongo3:27017'
+                  'mongo3:27017',
                 ],
-                'arbiter' => 'mongo3:27017'
-              }
+                'arbiter' => 'mongo3:27017',
+              },
             }
           end
 
           let(:params) do
             {
               replset: 'rsTest',
-              replset_config: rsConf
+              replset_config: rsConf,
             }
           end
 
@@ -832,9 +832,9 @@ describe 'mongodb::server' do
                 'members' => [
                   'mongo1:27017',
                   'mongo2:27017',
-                  'mongo3:27017'
-                ]
-              }
+                  'mongo3:27017',
+                ],
+              },
             }
           end
 
@@ -844,8 +844,8 @@ describe 'mongodb::server' do
               replset_members: [
                 'mongo1:27017',
                 'mongo2:27017',
-                'mongo3:27017'
-              ]
+                'mongo3:27017',
+              ],
             }
           end
 

@@ -38,7 +38,7 @@ describe 'mongodb::mongos' do
       describe 'with specific bind_ip values' do
         let :params do
           {
-            bind_ip: ['127.0.0.1', '10.1.1.13']
+            bind_ip: ['127.0.0.1', '10.1.1.13'],
           }
         end
 
@@ -48,7 +48,7 @@ describe 'mongodb::mongos' do
       context 'package_name => mongo-foo' do
         let(:params) do
           {
-            package_name: 'mongo-foo'
+            package_name: 'mongo-foo',
           }
         end
 
@@ -59,7 +59,7 @@ describe 'mongodb::mongos' do
       context 'service_manage => false' do
         let(:params) do
           {
-            service_manage: false
+            service_manage: false,
           }
         end
 
@@ -70,7 +70,7 @@ describe 'mongodb::mongos' do
       context 'package_ensure => purged' do
         let(:params) do
           {
-            package_ensure: 'purged'
+            package_ensure: 'purged',
           }
         end
 

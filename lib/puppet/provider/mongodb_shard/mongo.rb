@@ -16,7 +16,7 @@ Puppet::Type.type(:mongodb_shard).provide(:mongo, parent: Puppet::Provider::Mong
   commands mongosh: 'mongosh'
 
   def initialize(value = {})
-    super(value)
+    super
     @property_flush = {}
   end
 
@@ -111,7 +111,7 @@ Puppet::Type.type(:mongodb_shard).provide(:mongo, parent: Puppet::Provider::Mong
         ensure: :present,
         member: s['host'],
         keys: shard_collection_details(output['databases'], s['_id']),
-        provider: :mongo
+        provider: :mongo,
       }
     end
     properties
@@ -128,7 +128,7 @@ Puppet::Type.type(:mongodb_shard).provide(:mongo, parent: Puppet::Provider::Mong
                        ensure: :present,
                        member: shard['host'],
                        keys: shard_collection_details(output['databases'], shard['_id']),
-                       provider: :mongo
+                       provider: :mongo,
                      }
                    end
                  end
