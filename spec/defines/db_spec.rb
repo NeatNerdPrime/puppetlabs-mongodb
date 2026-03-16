@@ -14,7 +14,7 @@ describe 'mongodb::db' do
 
         let(:params) do
           { 'user'     => 'testuser',
-            'password' => 'testpass' }
+            'password' => 'testpass', }
         end
 
         it 'contains mongodb_database with mongodb::server requirement' do
@@ -22,22 +22,17 @@ describe 'mongodb::db' do
         end
 
         it 'contains mongodb_user with mongodb_database requirement' do
-          is_expected.to contain_mongodb_user('User testuser on db testdb'). \
-            with_username('testuser'). \
-            with_database('testdb'). \
-            that_comes_before('Mongodb_database[testdb]')
+          is_expected.to contain_mongodb_user('User testuser on db testdb').with_username('testuser').with_database('testdb').that_comes_before('Mongodb_database[testdb]')
         end
 
         it 'contains mongodb_user with proper roles' do
           params['roles'] = %w[testrole1 testrole2]
-          is_expected.to contain_mongodb_user('User testuser on db testdb'). \
-            with_roles(%w[testrole1 testrole2])
+          is_expected.to contain_mongodb_user('User testuser on db testdb').with_roles(%w[testrole1 testrole2])
         end
 
         it 'prefers password_hash instead of password' do
           params['password_hash'] = 'securehash'
-          is_expected.to contain_mongodb_user('User testuser on db testdb'). \
-            with_password_hash('securehash')
+          is_expected.to contain_mongodb_user('User testuser on db testdb').with_password_hash('securehash')
         end
 
         it 'contains mongodb_database with proper tries param' do
@@ -53,7 +48,7 @@ describe 'mongodb::db' do
           {
             'db_name'  => 'testdb',
             'user'     => 'testuser',
-            'password' => 'testpass'
+            'password' => 'testpass',
           }
         end
 
@@ -62,22 +57,17 @@ describe 'mongodb::db' do
         end
 
         it 'contains mongodb_user with mongodb_database requirement' do
-          is_expected.to contain_mongodb_user('User testuser on db testdb'). \
-            with_username('testuser'). \
-            with_database('testdb'). \
-            that_comes_before('Mongodb_database[testdb]')
+          is_expected.to contain_mongodb_user('User testuser on db testdb').with_username('testuser').with_database('testdb').that_comes_before('Mongodb_database[testdb]')
         end
 
         it 'contains mongodb_user with proper roles' do
           params['roles'] = %w[testrole1 testrole2]
-          is_expected.to contain_mongodb_user('User testuser on db testdb'). \
-            with_roles(%w[testrole1 testrole2])
+          is_expected.to contain_mongodb_user('User testuser on db testdb').with_roles(%w[testrole1 testrole2])
         end
 
         it 'prefers password_hash instead of password' do
           params['password_hash'] = 'securehash'
-          is_expected.to contain_mongodb_user('User testuser on db testdb'). \
-            with_password_hash('securehash')
+          is_expected.to contain_mongodb_user('User testuser on db testdb').with_password_hash('securehash')
         end
 
         it 'contains mongodb_database with proper tries param' do

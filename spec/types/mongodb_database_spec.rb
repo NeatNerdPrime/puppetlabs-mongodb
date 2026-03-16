@@ -6,10 +6,10 @@ describe 'mongodb_database' do
   let(:title) { 'test' }
 
   it do
-    is_expected.to be_valid_type.
-      with_provider(:mongodb).
-      with_properties('ensure').
-      with_parameters(%w[name tries])
+    is_expected.to be_valid_type
+      .with_provider(:mongodb)
+      .with_properties('ensure')
+      .with_parameters(%w[name tries])
   end
 
   it { is_expected.to be_valid_type.with_set_attributes(tries: 5) }

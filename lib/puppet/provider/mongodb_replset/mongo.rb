@@ -18,7 +18,7 @@ Puppet::Type.type(:mongodb_replset).provide(:mongo, parent: Puppet::Provider::Mo
   mk_resource_methods
 
   def initialize(resource = {})
-    super(resource)
+    super
     @property_flush = {}
   end
 
@@ -164,7 +164,7 @@ Puppet::Type.type(:mongodb_replset).provide(:mongo, parent: Puppet::Provider::Mo
         ensure: :present,
         members: output['members'],
         settings: output['settings'],
-        provider: :mongo
+        provider: :mongo,
       }
     end
     nil
@@ -272,7 +272,7 @@ Puppet::Type.type(:mongodb_replset).provide(:mongo, parent: Puppet::Provider::Mo
     replset_conf = {
       _id: name,
       members: members_conf,
-      settings: (@property_flush[:settings].nil? ? {} : @property_flush[:settings])
+      settings: (@property_flush[:settings].nil? ? {} : @property_flush[:settings]),
     }.to_json
 
     Puppet.debug "Starting replset config is #{replset_conf.to_json}"

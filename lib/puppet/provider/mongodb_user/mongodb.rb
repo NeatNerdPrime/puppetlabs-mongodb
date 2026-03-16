@@ -48,7 +48,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb, parent: Puppet::Provider::Mon
       command = {
         createUser: @resource[:username],
         customData: {
-          createdBy: "Puppet Mongodb_user['#{@resource[:name]}']"
+          createdBy: "Puppet Mongodb_user['#{@resource[:name]}']",
         },
         roles: role_hashes(@resource[:roles], @resource[:database]),
       }
@@ -90,7 +90,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb, parent: Puppet::Provider::Mon
       command = {
         updateUser: @resource[:username],
         pwd: @resource[:password_hash],
-        digestPassword: false
+        digestPassword: false,
       }
 
       mongo_eval("db.runCommand(#{command.to_json})", @resource[:database])
@@ -104,7 +104,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb, parent: Puppet::Provider::Mon
       updateUser: @resource[:username],
       pwd: @resource[:password],
       digestPassword: true,
-      mechanisms: @resource[:auth_mechanism] == :scram_sha_256 ? ['SCRAM-SHA-256'] : ['SCRAM-SHA-1']
+      mechanisms: (@resource[:auth_mechanism] == :scram_sha_256) ? ['SCRAM-SHA-256'] : ['SCRAM-SHA-1'],
     }
 
     mongo_eval("db.runCommand(#{command.to_json})", @resource[:database])
@@ -149,12 +149,12 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb, parent: Puppet::Provider::Mon
       if entry.include? '@'
         {
           'role' => entry.gsub(%r{^(.*)@.*$}, '\1'),
-          'db'   => entry.gsub(%r{^.*@(.*)$}, '\1')
+          'db'   => entry.gsub(%r{^.*@(.*)$}, '\1'),
         }
       else
         {
           'role' => entry,
-          'db'   => db
+          'db'   => db,
         }
       end
     end

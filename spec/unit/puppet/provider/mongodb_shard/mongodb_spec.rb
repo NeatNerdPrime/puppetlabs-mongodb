@@ -9,7 +9,7 @@ describe Puppet::Type.type(:mongodb_shard).provider(:mongo) do
       name: 'rs_test',
       member: 'rs_test/mongo1:27018',
       keys: [],
-      provider: :mongo
+      provider: :mongo,
     )
   end
 
@@ -26,17 +26,17 @@ describe Puppet::Type.type(:mongodb_shard).provider(:mongo) do
           'version' => 4,
           'minCompatibleVersion' => 4,
           'currentVersion' => 5,
-          'clusterId' => "ObjectId('548e9110f3aca177c94c5e49')"
+          'clusterId' => "ObjectId('548e9110f3aca177c94c5e49')",
         },
         'shards' => [
-          {  '_id' => 'rs_test', 'host' => 'rs_test/mongo1:27018' }
+          {  '_id' => 'rs_test', 'host' => 'rs_test/mongo1:27018' },
         ],
         'databases' => [
           {  '_id' => 'admin', 'partitioned' => false, 'primary' => 'config' },
           {  '_id' => 'test', 'partitioned' => false, 'primary' => 'rs_test' },
-          {  '_id' => 'rs_test', 'partitioned' => true, 'primary' => 'rs_test' }
-        ]
-      }
+          {  '_id' => 'rs_test', 'partitioned' => true, 'primary' => 'rs_test' },
+        ],
+      },
     }
   end
 
@@ -55,10 +55,10 @@ describe Puppet::Type.type(:mongodb_shard).provider(:mongo) do
     it 'makes a shard' do
       allow(provider).to receive(:sh_addshard).with('rs_test/mongo1:27018').and_return(
         'shardAdded' => 'rs_test',
-        'ok' => 1
+        'ok' => 1,
       )
       allow(provider).to receive(:sh_enablesharding).with('rs_test').and_return(
-        'ok' => 1
+        'ok' => 1,
       )
       provider.create
       provider.flush
